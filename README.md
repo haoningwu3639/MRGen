@@ -49,13 +49,13 @@ If you use this code and data for your research or project, please cite:
       }
 
 ## TODO
-- [] Release Paper
-- [] Code of Training VAE
-- [] Code of Training Diffusion
-- [] Code of Training Controllable Generation
-- [] Code of Training Segmentation
-- [] Code of Inference
-- [] Code of Evaluation
+- [ ] Release Paper
+- [ ] Code of Training VAE
+- [ ] Code of Training Diffusion
+- [ ] Code of Training Controllable Generation
+- [ ] Code of Training Segmentation
+- [ ] Code of Inference
+- [ ] Code of Evaluation
 
 
 ## Acknowledgements
