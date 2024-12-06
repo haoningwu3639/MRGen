@@ -1,14 +1,14 @@
 # MRGen: Diffusion-based Controllable Data Engine for MRI Segmentation towards Unannotated Modalities
-This repository contains the official PyTorch implementation of MRGen: https://arxiv.org/abs/2412.xxxxx/.
+This repository contains the official PyTorch implementation of MRGen: https://arxiv.org/abs/2412.04106/.
 
-The code will be released soon...
+The code, data and checkpoints will be released soon... We are working on that, stay tuned please.
 
 <div align="center">
    <img src="./teaser.png">
 </div>
 
 ## Some Information
-[Project Page](https://haoningwu3639.github.io/MRGen/)  $\cdot$ [Paper](https://arxiv.org/abs/2412.xxxxx/)(Soon) $\cdot$ [Dataset]()(Soon) $\cdot$ [Checkpoints]()(Soon) 
+[Project Page](https://haoningwu3639.github.io/MRGen/)  $\cdot$ [Paper](https://arxiv.org/abs/2412.04106/) $\cdot$ [Dataset]()(Soon) $\cdot$ [Checkpoints]()(Soon) 
 
 ## News
 - [2024.12] Our pre-print paper is released on arXiv.
@@ -44,12 +44,12 @@ If you use this code and data for your research or project, please cite:
 	@misc{wu2024mrgen,
             author  = {Wu, Haoning and Zhao, Ziheng and Zhang, Ya and Xie, Weidi and Wang, Yanfeng},
             title   = {MRGen: Diffusion-based Controllable Data Engine for MRI Segmentation towards Unannotated Modalities},
-            journal = {arXiv preprint arXiv:2412.xxxxx},
+            journal = {arXiv preprint arXiv:2412.04106},
             year    = {2024},
       }
 
 ## TODO
-- [ ] Release Paper
+- [x] Release Paper
 - [ ] Code of Training VAE
 - [ ] Code of Training Diffusion
 - [ ] Code of Training Controllable Generation
