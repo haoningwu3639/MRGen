@@ -268,13 +268,9 @@ class FeedForward(nn.Module):
             act_fn = GEGLU(dim, inner_dim)
 
         self.net = nn.ModuleList([])
-        # project in
         self.net.append(act_fn)
-        # project dropout
         self.net.append(nn.Dropout(dropout))
-        # project out
         self.net.append(nn.Linear(inner_dim, dim_out))
-        # FF as used in Vision Transformer, MLP-Mixer, etc. have a final dropout
         if final_dropout:
             self.net.append(nn.Dropout(dropout))
 

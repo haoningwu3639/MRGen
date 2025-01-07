@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from dataclasses import dataclass
-from typing import Dict, Optional, Tuple, Union
+from typing import Optional, Tuple, Union
 from diffusers.utils import BaseOutput
 from diffusers.models.modeling_utils import ModelMixin
 from diffusers.configuration_utils import ConfigMixin, register_to_config
@@ -11,13 +11,9 @@ from model.vae import Encoder, Decoder, DecoderOutput, DiagonalGaussianDistribut
 
 
 def vae_compute_loss(kld_weight: float, args: Tuple):
-    recons = args[0]
-    target = args[1]
-    mu = args[2]
-    log_var = args[3]
+    recons, target, mu, log_var = args
     recons_l2_loss = F.mse_loss(recons, target)
     kld_loss = torch.mean(-0.5 * torch.mean(1 + log_var - mu**2 - log_var.exp(), dim=(1,2,3)), dim=0)
-    
     loss = recons_l2_loss +  kld_weight * kld_loss
 
     return {'loss': loss, 'recon_l2_loss': recons_l2_loss.detach(), 'kld_loss': kld_loss.detach()}
@@ -150,9 +146,7 @@ class AutoencoderKL(ModelMixin, ConfigMixin):
         """
         self.use_slicing = False
 
-    def encode(
-        self, x: torch.FloatTensor, return_dict: bool = True
-    ) -> Union[AutoencoderKLOutput, Tuple[DiagonalGaussianDistribution]]:
+    def encode(self, x: torch.FloatTensor, return_dict: bool = True) -> Union[AutoencoderKLOutput, Tuple[DiagonalGaussianDistribution]]:
         """
         Encode a batch of images into latents.
 
@@ -194,23 +188,8 @@ class AutoencoderKL(ModelMixin, ConfigMixin):
 
         return DecoderOutput(sample=dec)
     
-    def decode(
-        self, z: torch.FloatTensor, return_dict: bool = True, generator=None
-    ) -> Union[DecoderOutput, torch.FloatTensor]:
-        """
-        Decode a batch of images.
-
-        Args:
-            z (`torch.FloatTensor`): Input batch of latent vectors.
-            return_dict (`bool`, *optional*, defaults to `True`):
-                Whether to return a [`~models.vae.DecoderOutput`] instead of a plain tuple.
-
-        Returns:
-            [`~models.vae.DecoderOutput`] or `tuple`:
-                If return_dict is True, a [`~models.vae.DecoderOutput`] is returned, otherwise a plain `tuple` is
-                returned.
-
-        """
+    def decode(self, z: torch.FloatTensor, return_dict: bool = True) -> Union[DecoderOutput, torch.FloatTensor]:
+        
         if self.use_slicing and z.shape[0] > 1:
             decoded_slices = [self._decode(z_slice).sample for z_slice in z.split(1)]
             decoded = torch.cat(decoded_slices)
@@ -226,17 +205,9 @@ class AutoencoderKL(ModelMixin, ConfigMixin):
         self,
         sample: torch.FloatTensor,
         sample_posterior: bool = False,
-        return_dict: bool = True,
         generator: Optional[torch.Generator] = None,
     ) -> Union[DecoderOutput, torch.FloatTensor]:
-        r"""
-        Args:
-            sample (`torch.FloatTensor`): Input sample.
-            sample_posterior (`bool`, *optional*, defaults to `False`):
-                Whether to sample from the posterior.
-            return_dict (`bool`, *optional*, defaults to `True`):
-                Whether or not to return a [`DecoderOutput`] instead of a plain tuple.
-        """
+        
         x = sample
         posterior = self.encode(x).latent_dist
         if sample_posterior:

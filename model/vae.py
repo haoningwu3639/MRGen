@@ -1,7 +1,7 @@
 # mainly copied from https://github.com/huggingface/diffusers/blob/main/src/diffusers/models/autoencoders/vae.py
 import torch
-import torch.nn as nn
 import numpy as np
+import torch.nn as nn
 from dataclasses import dataclass
 from typing import Optional, Tuple
 from diffusers.utils.torch_utils import randn_tensor
@@ -31,14 +31,7 @@ class Encoder(nn.Module):
         super().__init__()
         self.layers_per_block = layers_per_block
 
-        self.conv_in = nn.Conv2d(
-            in_channels,
-            block_out_channels[0],
-            kernel_size=3,
-            stride=1,
-            padding=1,
-        )
-
+        self.conv_in = nn.Conv2d(in_channels, block_out_channels[0], kernel_size=3, stride=1, padding=1)
         self.down_blocks = nn.ModuleList([])
 
         # down
@@ -101,13 +94,9 @@ class Encoder(nn.Module):
             # down
             if is_torch_version(">=", "1.11.0"):
                 for down_block in self.down_blocks:
-                    sample = torch.utils.checkpoint.checkpoint(
-                        create_custom_forward(down_block), sample, use_reentrant=False
-                    )
+                    sample = torch.utils.checkpoint.checkpoint(create_custom_forward(down_block), sample, use_reentrant=False)
                 # middle
-                sample = torch.utils.checkpoint.checkpoint(
-                    create_custom_forward(self.mid_block), sample, use_reentrant=False
-                )
+                sample = torch.utils.checkpoint.checkpoint(create_custom_forward(self.mid_block), sample, use_reentrant=False)
             else:
                 for down_block in self.down_blocks:
                     sample = torch.utils.checkpoint.checkpoint(create_custom_forward(down_block), sample)
@@ -146,16 +135,8 @@ class Decoder(nn.Module):
         super().__init__()
         self.layers_per_block = layers_per_block
 
-        self.conv_in = nn.Conv2d(
-            in_channels,
-            block_out_channels[-1],
-            kernel_size=3,
-            stride=1,
-            padding=1,
-        )
-
+        self.conv_in = nn.Conv2d(in_channels, block_out_channels[-1], kernel_size=3, stride=1, padding=1)
         self.up_blocks = nn.ModuleList([])
-
         temb_channels = in_channels if norm_type == "spatial" else None
 
         # mid

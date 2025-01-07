@@ -344,9 +344,7 @@ class CrossAttnDownBlock2D(nn.Module):
         if add_downsample:
             self.downsamplers = nn.ModuleList(
                 [
-                    Downsample2D(
-                        out_channels, use_conv=True, out_channels=out_channels, padding=downsample_padding, name="op"
-                    )
+                    Downsample2D(out_channels, use_conv=True, out_channels=out_channels, padding=downsample_padding, name="op")
                 ]
             )
         else:

@@ -8,7 +8,7 @@ The code, data and checkpoints will be released soon... We are working on that, 
 </div>
 
 ## Some Information
-[Project Page](https://haoningwu3639.github.io/MRGen/)  $\cdot$ [Paper](https://arxiv.org/abs/2412.04106/) $\cdot$ [Dataset]()(Soon) $\cdot$ [Checkpoints]()(Soon) 
+[Project Page](https://haoningwu3639.github.io/MRGen/)  $\cdot$ [Paper](https://arxiv.org/abs/2412.04106/) $\cdot$ [Dataset]() (Soon) $\cdot$ [Checkpoints]() (Soon) 
 
 ## News
 - [2024.12] Our pre-print paper is released on arXiv.
@@ -50,8 +50,8 @@ If you use this code and data for your research or project, please cite:
 
 ## TODO
 - [x] Release Paper
-- [ ] Code of Training VAE
-- [ ] Code of Training Diffusion
+- [x] Code of Training VAE
+- [x] Code of Training Diffusion
 - [ ] Code of Training Controllable Generation
 - [ ] Code of Training Segmentation
 - [ ] Code of Inference

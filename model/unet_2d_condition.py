@@ -309,9 +309,6 @@ class UNet2DConditionModel(ModelMixin, ConfigMixin):
             if size is not None and size > dim:
                 raise ValueError(f"size {size} has to be smaller or equal to {dim}.")
 
-        # Recursively walk through all the children.
-        # Any children which exposes the set_attention_slice method
-        # gets the message
         def fn_recursive_set_attention_slice(module: torch.nn.Module, slice_size: List[int]):
             if hasattr(module, "set_attention_slice"):
                 module.set_attention_slice(slice_size.pop())
@@ -354,10 +351,6 @@ class UNet2DConditionModel(ModelMixin, ConfigMixin):
             [`~models.unet_2d_condition.UNet2DConditionOutput`] if `return_dict` is True, otherwise a `tuple`. When
             returning a tuple, the first element is the sample tensor.
         """
-        # By default samples have to be AT least a multiple of the overall upsampling factor.
-        # The overall upsampling factor is equal to 2 ** (# num of upsampling layears).
-        # However, the upsampling interpolation output size can be forced to fit any upsampling size
-        # on the fly if necessary.
         default_overall_up_factor = 2 ** self.num_upsamplers
 
         # upsample size should be forwarded when sample is not a multiple of `default_overall_up_factor`
@@ -383,10 +376,6 @@ class UNet2DConditionModel(ModelMixin, ConfigMixin):
         # broadcast to batch dimension in a way that's compatible with ONNX/Core ML
         timesteps = timesteps.expand(sample.shape[0])
         t_emb = self.time_proj(timesteps)
-
-        # timesteps does not contain any weights and will always return f32 tensors
-        # but time_embedding might actually be running in fp16. so we need to cast here.
-        # there might be better ways to encapsulate this.
         t_emb = t_emb.to(dtype=self.dtype)
         emb = self.time_embedding(t_emb)
 

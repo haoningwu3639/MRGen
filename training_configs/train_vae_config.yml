@@ -1,0 +1,22 @@
+name: "mrgen_abdomen"
+logdir: "./train_vae/MRGen"
+pretrained_model_path: './ckpt/vae'
+data_ct_json_file: './radiopaedia_abdomen_ct_image_annotated.json'
+data_mri_json_file: './radiopaedia_abdomen_mri_image_annotated.json'
+gradient_accumulation_steps: 4
+train_steps: 50000
+train_batch_size: 8
+val_batch_size: 4
+validation_steps: 50000
+checkpointing_steps: 5000
+kld_weight: 1e-4
+learning_rate: 5e-5
+adam_beta1: 0.9
+adam_beta2: 0.999
+adam_weight_decay: 1e-2
+adam_epsilon: 1e-8
+continue_train_path: ""
+# continue_train_path: "./ckpt/vae"
+lr_scheduler: "cosine"
+# lr_scheduler: "linear"
+lr_warmup_steps: 0
