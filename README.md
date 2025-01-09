@@ -50,12 +50,14 @@ If you use this code and data for your research or project, please cite:
 
 ## TODO
 - [x] Release Paper
+- [ ] Release Dataset
+- [ ] Release Checkpoints
 - [x] Code of Training VAE
 - [x] Code of Training Diffusion
-- [ ] Code of Training Controllable Generation
+- [x] Code of Training Controllable Generation
 - [ ] Code of Training Segmentation
-- [ ] Code of Inference
-- [ ] Code of Evaluation
+- [x] Code of Inference
+- [x] Code of Evaluation
 
 
 ## Acknowledgements

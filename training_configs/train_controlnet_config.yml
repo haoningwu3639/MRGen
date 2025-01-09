@@ -1,4 +1,3 @@
-data_root_path: "./MRGen_Dataset/"
 pretrained_model_path: "./ckpt/"
 logdir: "./train_controlnet/MRGen"
 validation_sample_logger:
