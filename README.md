@@ -31,7 +31,6 @@ conda activate MRGen
 
 ## Dataset
 Please check out [MedGen-1M](https://huggingface.co/datasets/haoningwu/MedGen-1M) to download our curated dataset, including two parts: `radiopaedia_data` and `conditional_dataset`.
-
 For the conditional dataset, we have directly provided our processed data, including the raw image, mask annotations, and text descriptions.
 
 As described in our paper, considering the data privacy concerns of [Radiopaedia](radiopaedia.org), we only release the JSON files of this part here.
@@ -47,6 +46,7 @@ Our MRGen model requires training in the following three stages.
 ### Latent Encoding
 You can use the `train_vae.py` script to train a VAE for compressing radiology images into latents. 
 The model parameters are set in the `./ckpt/vae/config.json` file, and the training hyperparameters can be found in the `./training_configs/train_vae_config.yml` file. 
+
 The training command is as follows:
 
 ```
@@ -58,6 +58,7 @@ You need to first download the pre-trained [BiomedCLIP](https://huggingface.co/h
 
 You can use the `train_unet.py` script to train a diffusion unet for radiology image synthesis conditioned on text prompt (including modality, modality attributes, region, and organs). 
 The model parameters are set in the `./ckpt/unet/config.json` file, and the training hyperparameters can be found in the `./training_configs/train_unet_config.yml` file. 
+
 The training command is as follows:
 
 ```
@@ -69,6 +70,7 @@ The final mask-conditioned generation training is conducted on different trainin
 Therefore, for different dataset pairs, we have different training scripts. 
 Here, we use `train_controlnet_CHAOS.py` as an example, where you can set the **source modality** and **target modality** in the data loading part of the code. 
 The model parameters are set in the `./ckpt/controlnet/config.json` file, and the training hyperparameters can be found in the `./training_configs/train_controlnet_config.yml` file.
+
 You can find other training scripts in the `./scripts/` directory.
 
 The training command is as follows:
@@ -117,9 +119,20 @@ Please refer to [MRGen](https://huggingface.co/haoningwu/MRGen) to download our 
 ### Generative Model Checkpoints
 
 | Source Modality | Target Modality | Link |
-|-----------------|-----------------|------|
-|       |       |
-|       |       |
+|:-----------------:|:-----------------:|:------:|
+| CHAOS-MRI_T1 | CHAOS-MRI_T2-SPIR | [CHAOS-MRI_T1_to_CHAOS-MRI_T2](https://huggingface.co/haoningwu/MRGen/tree/main/controlnet_model_zoo/controlnet_CHAOS-MRI_T1_to_CHAOS-MRI_T2) |
+| CHAOS-MRI_T2-SPIR | CHAOS-MRI_T1 | [CHAOS-MRI_T2_to_CHAOS-MRI_T1](https://huggingface.co/haoningwu/MRGen/tree/main/controlnet_model_zoo/controlnet_CHAOS-MRI_T2_to_CHAOS-MRI_T1) |
+| MSD-Prostate_T2 | MSD-Prostate_ADC | [MSDProstate_T2_to_MSDProstate_ADC](https://huggingface.co/haoningwu/MRGen/tree/main/controlnet_model_zoo/controlnet_MSDProstate_T2_to_MSDProstate_ADC) |
+| MSD-Prostate_ADC | MSD-Prostate_T2 | [MSDProstate_ADC_to_MSDProstate_T2](https://huggingface.co/haoningwu/MRGen/tree/main/controlnet_model_zoo/controlnet_MSDProstate_ADC_to_MSDProstate_T2) |
+| PanSeg_T1 | PanSeg_T2 | [PanSeg_T1_to_PanSeg_T2](https://huggingface.co/haoningwu/MRGen/tree/main/controlnet_model_zoo/controlnet_PanSeg_T1_to_PanSeg_T2) |
+| PanSeg_T2 | PanSeg_T1 | [PanSeg_T2_to_PanSeg_T1](https://huggingface.co/haoningwu/MRGen/tree/main/controlnet_model_zoo/controlnet_PanSeg_T2_to_PanSeg_T1) |
+| LiQA_T1 | CHAOS-MRI_T2-SPIR | [LiQA_T1_to_CHAOS-MRI_T2](https://huggingface.co/haoningwu/MRGen/tree/main/controlnet_model_zoo/controlnet_LiQA_T1_to_CHAOS-MRI_T2) |
+| CHAOS-MRI_T2-SPIR | LiQA_T1 | [CHAOS-MRI_T2_to_LiQA_T1](https://huggingface.co/haoningwu/MRGen/tree/main/controlnet_model_zoo/controlnet_CHAOS-MRI_T2_to_LiQA_T1) |
+| MSD-Prostate_ADC | PROMISE12_T2 | [MSDProstate_ADC_to_PROMISE12_T2](https://huggingface.co/haoningwu/MRGen/tree/main/controlnet_model_zoo/controlnet_MSDProstate_ADC_to_PROMISE12_T2) |
+| PROMISE12_T2 | MSD-Prostate_ADC | [PROMISE12_T2_to_MSDProstate_ADC](https://huggingface.co/haoningwu/MRGen/tree/main/controlnet_model_zoo/controlnet_PROMISE12_T2_to_MSDProstate_ADC) |
+| AMOS22_CT | CHAOS-MRI_T1 | [AMOS22_CT_to_CHAOS-MRI_T2](https://huggingface.co/haoningwu/MRGen/tree/main/controlnet_model_zoo/controlnet_AMOS22_CT_to_CHAOS-MRI_T2) |
+| AMOS22_CT | CHAOS-MRI_T2-SPIR | [AMOS22_CT_to_CHAOS-MRI_T1](https://huggingface.co/haoningwu/MRGen/tree/main/controlnet_model_zoo/controlnet_AMOS22_CT_to_CHAOS-MRI_T1) |
+| MSD-Liver_CT | CHAOS-MRI_T2-SPIR | [MSDLiver_CT_to_CHAOS-MRI_T2](https://huggingface.co/haoningwu/MRGen/tree/main/controlnet_model_zoo/controlnet_MSDLiver_CT_to_CHAOS-MRI_T2) |
 
 ### Segmentation Model Checkpoints
 To be updated soon...
