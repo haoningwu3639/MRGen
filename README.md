@@ -94,6 +94,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python synthesize_CHAOS_filter_multi.py --c
  --modality T2-SPIR --channels 1 --sample_per_mask 2 \ 
  --max_tries_per_mask 20 --num_images_per_prompt 10 --num_gpus 8
 ```
+You will get all the synthetic data in a json file.
 
 ## Evaluation
 
@@ -106,7 +107,7 @@ Then `./scripts/evaluate_diffusion_CLIPscore.py` to calculate the CLIP image-ima
 We take nnU-Net for illustration. So make sure you have [installed nnU-Nets](https://github.com/MIC-DKFZ/nnUNet/blob/e539637821b67893bd57e4ba9dc1e60a218ae3ea/documentation/installation_instructions.md) and [set up your path](https://github.com/MIC-DKFZ/nnUNet/blob/e539637821b67893bd57e4ba9dc1e60a218ae3ea/documentation/setting_up_paths.md) before we start. You first need to transfer the synthetic data to [nnU-Net required format](https://github.com/MIC-DKFZ/nnUNet/blob/e539637821b67893bd57e4ba9dc1e60a218ae3ea/documentation/dataset_format.md?plain=1#L24) with `Segmnetation/prepare_nnunet_data`:
 ```
 python ./Segmnetation/prepare_nnunet_data.py \
---json_file synthetic_data_json_file_path \
+--json_file 'a json file containing all the synthetic data' \
 --mask2label 'CHAOSMR' --dataset_id '001' --dataset_name 'CHAOSMR_T2_Synthetic'
 ```
 This will create a folder called 'Dataset001_CHAOSMR_T2_Synthetic' under your nnU-Net raw data directory, and get your training data ready. Next, simply follow the [nnU-Net instruction](https://github.com/MIC-DKFZ/nnUNet/blob/e539637821b67893bd57e4ba9dc1e60a218ae3ea/documentation/how_to_use_nnunet.md) to configure and train the segmentation model:
