@@ -40,7 +40,7 @@ After obtaining official authorization from Radiopaedia, you may download the da
 Alternatively, you can send the authorization via email to us (`haoningwu3639@gmail.com` or `Zhao_Ziheng@sjtu.edu.cn`) to obtain the download link for the image data in our MedGen-1M.
 
 
-## Training Generative Models
+## Training
 Our MRGen model requires training in the following three stages.
 
 ### Latent Encoding
@@ -79,12 +79,8 @@ The training command is as follows:
 CUDA_VISIBLE_DEVICES=0,1,2,3 accelerate launch --main_process_port 23456 train_controlnet_CHAOS.py
 ```
 
-## Training Segmentation Models
-To be updated soon...
-
 ## Inference
 
-### Generation
 Similar to the previous description, since different mask-conditioned generative models are trained on different dataset pairs, we will only use `synthesize_CHAOS_filter_multi.py` as an example here. 
 This script has implemented multi-GPU parallel inference through distributed computing.
 
@@ -99,19 +95,45 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python synthesize_CHAOS_filter_multi.py --c
  --max_tries_per_mask 20 --num_images_per_prompt 10 --num_gpus 8
 ```
 
-### Segmentation
-To be updated soon...
-
 ## Evaluation
-
-### Generative Model Evaluation
 
 You can refer to `./scripts/evaluate_vae_performance.py` to evaluate the reconstruction performance of the vae.
 Moreover, you can refer to `./scripts/evaluate_diffusion_performance.py` to synthesize radiology images conditioned on text prompts, and utilize [pytorch_fid](https://github.com/mseitzer/pytorch-fid) to calculate FID scores. 
 Then `./scripts/evaluate_diffusion_CLIPscore.py` to calculate the CLIP image-image similarity and image-text similarity. 
 
-### Segmentation Model Evaluation
-To be updated soon...
+## Synthetic Data for Segmentation
+
+We take nnU-Net for illustration. So make sure you have [installed nnU-Nets](https://github.com/MIC-DKFZ/nnUNet/blob/e539637821b67893bd57e4ba9dc1e60a218ae3ea/documentation/installation_instructions.md) and [set up your path](https://github.com/MIC-DKFZ/nnUNet/blob/e539637821b67893bd57e4ba9dc1e60a218ae3ea/documentation/setting_up_paths.md) before we start. You first need to transfer the synthetic data to [nnU-Net required format](https://github.com/MIC-DKFZ/nnUNet/blob/e539637821b67893bd57e4ba9dc1e60a218ae3ea/documentation/dataset_format.md?plain=1#L24) with `Segmnetation/prepare_nnunet_data`:
+```
+python ./Segmnetation/prepare_nnunet_data.py \
+--json_file synthetic_data_json_file_path \
+--mask2label 'CHAOSMR' --dataset_id '001' --dataset_name 'CHAOSMR_T2_Synthetic'
+```
+This will create a folder called 'Dataset001_CHAOSMR_T2_Synthetic' under your nnU-Net raw data directory, and get your training data ready. Next, simply follow the [nnU-Net instruction](https://github.com/MIC-DKFZ/nnUNet/blob/e539637821b67893bd57e4ba9dc1e60a218ae3ea/documentation/how_to_use_nnunet.md) to configure and train the segmentation model:
+```
+nnUNetv2_plan_and_preprocess -d 001 -c 2d
+
+CUDA_VISIBLE_DEVICES=0 nnUNetv2_train 001 2d all -tr nnUNetTrainer --c
+```
+Now, assume that you have the evaluation data ready as 'Dataset002_CHAOSMR_T2_Real' under your nnU-Net raw data directory (you can refer to `Segmentation/prepare_real_data,py` for how to transfer 3D volumes in these public segmentation datases to 2D png files as nnU-Net raw data), you can run the inference code:
+```
+CUDA_VISIBLE_DEVICES=0 nnUNetv2_predict
+-i /Path_to_your_nnUNet_raw_data_dir/Dataset002_CHAOSMR_T2_Real/imagesTs/ \
+-o /Path_to_your_nnUNet_raw_data_dir/Dataset002_CHAOSMR_T2_Real/labelsPred_from_001_synthetic_data/ \
+-chk /Path_to_your_nnUNet_result_dir/Dataset001_CHAOSMR_T2_Synthetic/nnUNetTrainer__nnUNetPlans__2d/fold_all/checkpoint_best.pth \
+-d 001 \
+-c 2d  -f all  --disable_tta
+```
+Note that even though we synthesize data for 2D segmentation models, the evaluation is done on 3D volumes. To calculate DSC score for the inference result:
+```
+python ./Segmentation/evaluate_nib.py \
+--target_dataset 'CHAOS_MRI' \		# be carefully on the label to intensity mapping
+--source_dataset 'CHAOS_MRI' \
+--nnunet_name 'Dataset002_CHAOSMR_T2_Real' \
+--gt_dir 'labelsTs' \
+--seg_dir 'labelsPred_from_001_synthetic_data' \
+--img_dir 'imagesTs' 
+```
 
 ## Checkpoints - Model Zoo
 Please refer to [MRGen](https://huggingface.co/haoningwu/MRGen) to download our pre-trained checkpoints.
@@ -134,9 +156,6 @@ Please refer to [MRGen](https://huggingface.co/haoningwu/MRGen) to download our 
 | AMOS22_CT | CHAOS-MRI_T2-SPIR | [AMOS22_CT_to_CHAOS-MRI_T1](https://huggingface.co/haoningwu/MRGen/tree/main/controlnet_model_zoo/controlnet_AMOS22_CT_to_CHAOS-MRI_T1) |
 | MSD-Liver_CT | CHAOS-MRI_T2-SPIR | [MSDLiver_CT_to_CHAOS-MRI_T2](https://huggingface.co/haoningwu/MRGen/tree/main/controlnet_model_zoo/controlnet_MSDLiver_CT_to_CHAOS-MRI_T2) |
 
-### Segmentation Model Checkpoints
-To be updated soon...
-
 ## Citation
 If you use this code and data for your research or project, please cite:
 
@@ -154,7 +173,7 @@ If you use this code and data for your research or project, please cite:
 - [x] Code of Training VAE
 - [x] Code of Training Diffusion
 - [x] Code of Training Controllable Generation
-- [ ] Code of Training Segmentation
+- [x] Code of Training Segmentation
 - [x] Code of Inference
 - [x] Code of Evaluation
 
