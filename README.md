@@ -104,9 +104,9 @@ Then `./scripts/evaluate_diffusion_CLIPscore.py` to calculate the CLIP image-ima
 
 ## Synthetic Data for Segmentation
 
-We take nnU-Net for illustration. So make sure you have [installed nnU-Nets](https://github.com/MIC-DKFZ/nnUNet/blob/e539637821b67893bd57e4ba9dc1e60a218ae3ea/documentation/installation_instructions.md) and [set up your path](https://github.com/MIC-DKFZ/nnUNet/blob/e539637821b67893bd57e4ba9dc1e60a218ae3ea/documentation/setting_up_paths.md) before we start. You first need to transfer the synthetic data to [nnU-Net required format](https://github.com/MIC-DKFZ/nnUNet/blob/e539637821b67893bd57e4ba9dc1e60a218ae3ea/documentation/dataset_format.md?plain=1#L24) with `Segmnetation/prepare_nnunet_data`:
+We take nnU-Net for illustration. So make sure you have [installed nnU-Nets](https://github.com/MIC-DKFZ/nnUNet/blob/e539637821b67893bd57e4ba9dc1e60a218ae3ea/documentation/installation_instructions.md) and [set up your path](https://github.com/MIC-DKFZ/nnUNet/blob/e539637821b67893bd57e4ba9dc1e60a218ae3ea/documentation/setting_up_paths.md) before we start. You first need to transfer the synthetic data to [nnU-Net required format](https://github.com/MIC-DKFZ/nnUNet/blob/e539637821b67893bd57e4ba9dc1e60a218ae3ea/documentation/dataset_format.md?plain=1#L24) with `Segmnetation/prepare_synthetic_data`:
 ```
-python ./Segmnetation/prepare_nnunet_data.py \
+python ./Segmnetation/prepare_synthetic_data.py \
 --json_file 'a json file containing all the synthetic data' \
 --mask2label 'CHAOSMR' --dataset_id '001' --dataset_name 'CHAOSMR_T2_Synthetic'
 ```
