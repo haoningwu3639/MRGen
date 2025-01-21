@@ -22,6 +22,7 @@ def setup(rank, world_size):
 
 def cleanup():
     dist.destroy_process_group()
+    torch.cuda.empty_cache()
 
 @torch.no_grad()
 def validate(vae, test_dataloader, device, kld_weight: float, logdir: str, step: int):
@@ -127,6 +128,10 @@ def train(rank, world_size, config):
             loss_dict = vae_compute_loss(config.kld_weight, vae(image, sample_posterior=True))
             loss = loss_dict['loss'] / config.gradient_accumulation_steps
             loss.backward()
+        
+        # Gradient clipping
+        torch.nn.utils.clip_grad_norm_(vae.parameters(), max_norm=1.0)
+        
         optimizer.step()
         optimizer.zero_grad(set_to_none=True)
         lr_scheduler.step()
