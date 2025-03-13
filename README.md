@@ -1,4 +1,4 @@
-# MRGen: Segmentation Data Engine For Underrepresented MRI Modalities
+# MRGen: Segmentation Data Engine for Underrepresented MRI Modalities
 This repository contains the official PyTorch implementation of MRGen: https://arxiv.org/abs/2412.04106/.
 
 <div align="center">
