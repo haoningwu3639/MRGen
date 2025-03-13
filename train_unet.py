@@ -155,13 +155,11 @@ def train(
         eps=adam_epsilon,
     )
     
-    train_CT_dataset = MRGenDataset(data_json_file=data_ct_json_file, mode='train', stage='unet', modality='CT')
     train_MRI_dataset = MRGenDataset(data_json_file=data_mri_json_file, mode='train', stage='unet', modality='MRI')
-    test_CT_dataset = MRGenDataset(data_json_file=data_ct_json_file, mode='test', stage='unet', modality='CT')
     test_MRI_dataset = MRGenDataset(data_json_file=data_mri_json_file, mode='test', stage='unet', modality='MRI')
     
-    train_dataset = ConcatDataset([train_CT_dataset] + [train_MRI_dataset] * 4)
-    val_dataset = ConcatDataset([test_CT_dataset] + [test_MRI_dataset] * 4)
+    train_dataset = train_MRI_dataset
+    val_dataset = test_MRI_dataset
     
     print(train_dataset.__len__())
     print(val_dataset.__len__())

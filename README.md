@@ -1,4 +1,4 @@
-# MRGen: Diffusion-based Controllable Data Engine for MRI Segmentation towards Unannotated Modalities
+# MRGen: Segmentation Data Engine For Underrepresented MRI Modalities
 This repository contains the official PyTorch implementation of MRGen: https://arxiv.org/abs/2412.04106/.
 
 <div align="center">
@@ -6,7 +6,7 @@ This repository contains the official PyTorch implementation of MRGen: https://a
 </div>
 
 ## Some Information
-[Project Page](https://haoningwu3639.github.io/MRGen/) $\cdot$ [Paper](https://arxiv.org/abs/2412.04106/) $\cdot$ [Dataset](https://huggingface.co/datasets/haoningwu/MedGen-1M) $\cdot$ [Checkpoints](https://huggingface.co/haoningwu/MRGen)
+[Project Page](https://haoningwu3639.github.io/MRGen/) $\cdot$ [Paper](https://arxiv.org/abs/2412.04106/) $\cdot$ [Dataset](https://huggingface.co/datasets/haoningwu/MRGen-DB) $\cdot$ [Checkpoints](https://huggingface.co/haoningwu/MRGen)
 
 ## News
 - [2025.1] We have released our code, data, and checkpoints.
@@ -30,14 +30,14 @@ conda activate MRGen
 ```
 
 ## Dataset
-Please check out [MedGen-1M](https://huggingface.co/datasets/haoningwu/MedGen-1M) to download our curated dataset, including two parts: `radiopaedia_data` and `conditional_dataset`.
+Please check out [MRGen-DB](https://huggingface.co/datasets/haoningwu/MRGen-DB) to download our curated dataset, including two parts: `radiopaedia_data` and `conditional_dataset`.
 For the conditional dataset, we have directly provided our processed data, including the raw image, mask annotations, and text descriptions.
 
 As described in our paper, considering the data privacy concerns of [Radiopaedia](radiopaedia.org), we only release the JSON files of this part here.
 For each case, the format is represented as `./radiopaedia/{patient_id}/{case_id}/{volume_id}/{slice_id}.jpeg`, for example, `./radiopaedia/2564/1/MRI_4/1.jpeg`.
 This format allows you to locate the corresponding original volume through the `link` provided in our json files. 
 After obtaining official authorization from Radiopaedia, you may download the data corresponding to the JSON file on your own. 
-Alternatively, you can send the authorization via email to us (`haoningwu3639@gmail.com` or `Zhao_Ziheng@sjtu.edu.cn`) to obtain the download link for the image data in our MedGen-1M.
+Alternatively, you can send the authorization via email to us (`haoningwu3639@gmail.com` or `Zhao_Ziheng@sjtu.edu.cn`) to obtain the download link for the image data in our MRGen-DB.
 
 
 ## Training
@@ -153,16 +153,13 @@ Please refer to [MRGen](https://huggingface.co/haoningwu/MRGen) to download our 
 | CHAOS-MRI_T2-SPIR | LiQA_T1 | [CHAOS-MRI_T2_to_LiQA_T1](https://huggingface.co/haoningwu/MRGen/tree/main/controlnet_model_zoo/controlnet_CHAOS-MRI_T2_to_LiQA_T1) |
 | MSD-Prostate_ADC | PROMISE12_T2 | [MSDProstate_ADC_to_PROMISE12_T2](https://huggingface.co/haoningwu/MRGen/tree/main/controlnet_model_zoo/controlnet_MSDProstate_ADC_to_PROMISE12_T2) |
 | PROMISE12_T2 | MSD-Prostate_ADC | [PROMISE12_T2_to_MSDProstate_ADC](https://huggingface.co/haoningwu/MRGen/tree/main/controlnet_model_zoo/controlnet_PROMISE12_T2_to_MSDProstate_ADC) |
-| AMOS22_CT | CHAOS-MRI_T1 | [AMOS22_CT_to_CHAOS-MRI_T2](https://huggingface.co/haoningwu/MRGen/tree/main/controlnet_model_zoo/controlnet_AMOS22_CT_to_CHAOS-MRI_T2) |
-| AMOS22_CT | CHAOS-MRI_T2-SPIR | [AMOS22_CT_to_CHAOS-MRI_T1](https://huggingface.co/haoningwu/MRGen/tree/main/controlnet_model_zoo/controlnet_AMOS22_CT_to_CHAOS-MRI_T1) |
-| MSD-Liver_CT | CHAOS-MRI_T2-SPIR | [MSDLiver_CT_to_CHAOS-MRI_T2](https://huggingface.co/haoningwu/MRGen/tree/main/controlnet_model_zoo/controlnet_MSDLiver_CT_to_CHAOS-MRI_T2) |
 
 ## Citation
 If you use this code and data for your research or project, please cite:
 
 	@misc{wu2024mrgen,
             author  = {Wu, Haoning and Zhao, Ziheng and Zhang, Ya and Xie, Weidi and Wang, Yanfeng},
-            title   = {MRGen: Diffusion-based Controllable Data Engine for MRI Segmentation towards Unannotated Modalities},
+            title   = {MRGen: Segmentation Data Engine For Underrepresented MRI Modalities},
             journal = {arXiv preprint arXiv:2412.04106},
             year    = {2024},
       }

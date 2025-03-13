@@ -72,13 +72,11 @@ class MRGenDataset(Dataset):
 
 
 if __name__ == '__main__':
-    train_CT_dataset = MRGenDataset(data_json_file='./radiopaedia_abdomen_ct_image_annotated.json', mode='train', stage='vae', modality='CT')
     train_MRI_dataset = MRGenDataset(data_json_file='./radiopaedia_abdomen_mri_image_annotated.json', mode='train', stage='vae', modality='MRI')
-    test_CT_dataset = MRGenDataset(data_json_file='./radiopaedia_abdomen_ct_image_annotated.json', mode='test', stage='vae', modality='CT')
     test_MRI_dataset = MRGenDataset(data_json_file='./radiopaedia_abdomen_mri_image_annotated.json', mode='test', stage='vae', modality='MRI')
     
-    train_dataset = ConcatDataset([train_CT_dataset] + [train_MRI_dataset] * 4)
-    test_dataset = ConcatDataset([test_CT_dataset] + [test_MRI_dataset] * 4)
+    train_dataset = train_MRI_dataset
+    test_dataset = test_MRI_dataset
     
     train_data = DataLoader(train_dataset, batch_size=64, num_workers=64, shuffle=False)
     test_data = DataLoader(test_dataset, batch_size=64, num_workers=64, shuffle=False)

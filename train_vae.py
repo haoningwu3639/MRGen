@@ -76,15 +76,12 @@ def train(rank, world_size, config):
         os.makedirs(logdir, exist_ok=True)
         OmegaConf.save(get_function_args(), os.path.join(logdir, 'config.yml'))
 
-    train_CT_dataset = MRGenDataset(data_json_file=config.data_ct_json_file, mode='train', stage='vae', modality='CT')
     train_MRI_dataset = MRGenDataset(data_json_file=config.data_mri_json_file, mode='train', stage='vae', modality='MRI')
-    test_CT_dataset = MRGenDataset(data_json_file=config.data_ct_json_file, mode='test', stage='vae', modality='CT')
     test_MRI_dataset = MRGenDataset(data_json_file=config.data_mri_json_file, mode='test', stage='vae', modality='MRI')
     
-    # Balance CT and MRI data
-    train_dataset = ConcatDataset([train_CT_dataset] + [train_MRI_dataset] * 4)
-    test_dataset = ConcatDataset([test_CT_dataset] + [test_MRI_dataset] * 4)
-    
+    train_dataset = train_MRI_dataset
+    test_dataset = test_MRI_dataset
+
     print(train_dataset.__len__())
     print(test_dataset.__len__())
     
