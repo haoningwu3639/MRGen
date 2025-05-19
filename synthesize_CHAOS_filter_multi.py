@@ -144,7 +144,7 @@ def test(rank, world_size, args, shared_list):
         model.requires_grad_(False)
         model.eval()
     
-    val_dataset = CHAOS_MRI_Dataset(modality=args.modality, mode='inference')
+    val_dataset = CHAOS_MRI_Dataset(target_modality=args.modality, mode='inference')
     val_sampler = torch.utils.data.distributed.DistributedSampler(val_dataset, num_replicas=world_size, rank=rank)
     val_dataloader = torch.utils.data.DataLoader(val_dataset, batch_size=1, shuffle=False, num_workers=8, pin_memory=True, sampler=val_sampler)
     
