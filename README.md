@@ -158,7 +158,7 @@ Please refer to [MRGen](https://huggingface.co/haoningwu/MRGen) to download our 
 If you use this code and data for your research or project, please cite:
 
 	@misc{wu2024mrgen,
-            author  = {Wu, Haoning and Zhao, Ziheng and Zhang, Ya and Xie, Weidi and Wang, Yanfeng},
+            author  = {Wu, Haoning and Zhao, Ziheng and Zhang, Ya and Wang, Yanfeng and Xie, Weidi},
             title   = {MRGen: Segmentation Data Engine for Underrepresented MRI Modalities},
             journal = {arXiv preprint arXiv:2412.04106},
             year    = {2024},
