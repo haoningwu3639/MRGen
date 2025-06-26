@@ -1,4 +1,4 @@
-# MRGen: Segmentation Data Engine for Underrepresented MRI Modalities
+# MRGen: Segmentation Data Engine for Underrepresented MRI Modalities (ICCV 2025)
 This repository contains the official PyTorch implementation of MRGen: https://arxiv.org/abs/2412.04106/.
 
 <div align="center">
@@ -9,6 +9,7 @@ This repository contains the official PyTorch implementation of MRGen: https://a
 [Project Page](https://haoningwu3639.github.io/MRGen/) $\cdot$ [Paper](https://arxiv.org/abs/2412.04106/) $\cdot$ [Dataset](https://huggingface.co/datasets/haoningwu/MRGen-DB) $\cdot$ [Checkpoints](https://huggingface.co/haoningwu/MRGen)
 
 ## News
+- [2025.6] Glad to share that MRGen has been accepted to ICCV 2025.
 - [2025.1] We have released our code, data, and checkpoints.
 - [2024.12] Our pre-print paper is released on arXiv.
 
@@ -157,11 +158,11 @@ Please refer to [MRGen](https://huggingface.co/haoningwu/MRGen) to download our 
 ## Citation
 If you use this code and data for your research or project, please cite:
 
-	@misc{wu2024mrgen,
-            author  = {Wu, Haoning and Zhao, Ziheng and Zhang, Ya and Wang, Yanfeng and Xie, Weidi},
-            title   = {MRGen: Segmentation Data Engine for Underrepresented MRI Modalities},
-            journal = {arXiv preprint arXiv:2412.04106},
-            year    = {2024},
+      @inproceedings{wu2025mrgen,
+            author    = {Wu, Haoning and Zhao, Ziheng and Zhang, Ya and Wang, Yanfeng and Xie, Weidi},
+            title     = {MRGen: Segmentation Data Engine for Underrepresented MRI Modalities},
+            booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)}
+            year      = {2025},
       }
 
 ## TODO
